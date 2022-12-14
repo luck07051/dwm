@@ -11,11 +11,11 @@ static int topbar             = 1;        /* 0 means bottom bar */
 static char font[]            = "MesloLGS Nerd Font:size=9";
 static char font2[]           = "Noto Sans CJK TC:size=9.5";
 static const char *fonts[]    = { font, font2, "monospace:size=10" };
-static char bgcolor[]           = "#222222";
-static char fgcolor[]           = "#eeeeee";
-static char bgaltcolor[]        = "#444444";
-static char fgaltcolor[]        = "#888888";
-static char primary[]           = "#005577";
+static char bgcolor[]         = "#222222";
+static char fgcolor[]         = "#eeeeee";
+static char bgaltcolor[]      = "#444444";
+static char fgaltcolor[]      = "#888888";
+static char primary[]         = "#005577";
 static char *colors[][3] = {
         /*                  fg          bg         border   */
 	[SchemeNorm]    = { fgcolor,    bgcolor,   bgaltcolor },
@@ -32,7 +32,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
-	{ "discord",  NULL,       NULL,       1 << 7,       0,           -1,        0  },
+	{ "discord",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
 	{ NULL,       NULL,       "notes",    0,            1,           -1,       'n' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
@@ -93,7 +93,6 @@ ResourcePref resources[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
-
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
 #define NOTESCRP   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", "nvim", "notes/index.md", "-c", "TZMinimalist" )
