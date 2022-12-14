@@ -1,6 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 #define SESSION_FILE "/tmp/dwm-session"
+#define STATUSBAR    "dwmblocks"
+
+#define BROWSER "firefox"
+#define TERMINAL "st"
 
 /* appearance */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -87,15 +91,13 @@ ResourcePref resources[] = {
 /* XF86 key support */
 #include <X11/XF86keysym.h>
 
-#define BROWSER "firefox"
-#define TERMINAL "st"
-
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
-#define NOTESCRP   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", "nvim", "notes/index.md", "-c", "TZMinimalist" )
+#define NOTESCRP   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", \
+			 "nvim", "notes/index.md", "-c", "TZMinimalist" )
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -233,6 +235,7 @@ static Key keys[] = {
 
 
 	{ MODKEY,               XK_F5,              xrdb,           {.v = NULL } },
+	{ MODKEY,               XK_F6,              spawn,          SHCMD("kill -10 $(pidof dwmblocks)") },
 
 
 	{ 0,            XF86XK_AudioRaiseVolume,    spawn,          SHCMD("vl up 5") },
@@ -248,7 +251,11 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          SPAWN("st") },
+	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        0,              Button4,        sigstatusbar,   {.i = 4} },
+	{ ClkStatusText,        0,              Button5,        sigstatusbar,   {.i = 5} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
