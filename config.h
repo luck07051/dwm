@@ -5,19 +5,19 @@ static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char font[]            = "monospace:size=10";
-static char dmenufont[]       = "monospace:size=10";
-static const char *fonts[]          = { font };
-static char normbgcolor[]           = "#222222";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
+static char font[]            = "MesloLGS Nerd Font:size=9";
+static char font2[]           = "Noto Sans CJK TC:size=9.5";
+static const char *fonts[]    = { font, font2, "monospace:size=10" };
+static char bgcolor[]           = "#222222";
+static char fgcolor[]           = "#eeeeee";
+static char bgaltcolor[]        = "#444444";
+static char fgaltcolor[]        = "#888888";
+static char primary[]           = "#005577";
 static char *colors[][3] = {
-       /*               fg           bg           border   */
-       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+        /*                  fg          bg         border   */
+	[SchemeNorm]    = { fgcolor,    bgcolor,   bgaltcolor },
+	[SchemeSel]     = { bgcolor,    primary,   primary },
+	[SchemeEmt]     = { fgaltcolor, bgcolor,   bgcolor },
 };
 
 /* tagging */
@@ -46,8 +46,26 @@ static const Layout layouts[] = {
 	{ "[M]",      monocle },
 };
 
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+	{ "background",         STRING,  &bgcolor },
+	{ "foreground",         STRING,  &fgcolor },
+	{ "bgaltcolor",         STRING,  &bgaltcolor },
+	{ "fgaltcolor",         STRING,  &fgaltcolor },
+	{ "primary",            STRING,  &primary },
+	{ "borderpx",           INTEGER, &borderpx },
+	{ "snap",               INTEGER, &snap },
+	{ "showbar",            INTEGER, &showbar },
+	{ "topbar",             INTEGER, &topbar },
+	{ "mfact",              FLOAT,   &mfact },
+	{ "nmaster",            INTEGER, &nmaster },
+	{ "resizehints",        INTEGER, &resizehints },
+};
+
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -56,37 +74,15 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 
-/* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "st", NULL };
+#define _____      spawn, { .v = (const char*[]){ NULL} }
 
-/*
- * Xresources preferences to load at startup
- */
-ResourcePref resources[] = {
-		{ "font",               STRING,  &font },
-		{ "dmenufont",          STRING,  &dmenufont },
-		{ "normbgcolor",        STRING,  &normbgcolor },
-		{ "normbordercolor",    STRING,  &normbordercolor },
-		{ "normfgcolor",        STRING,  &normfgcolor },
-		{ "selbgcolor",         STRING,  &selbgcolor },
-		{ "selbordercolor",     STRING,  &selbordercolor },
-		{ "selfgcolor",         STRING,  &selfgcolor },
-		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",          		INTEGER, &snap },
-		{ "showbar",          	INTEGER, &showbar },
-		{ "topbar",          	INTEGER, &topbar },
-		{ "nmaster",          	INTEGER, &nmaster },
-		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",      	 	FLOAT,   &mfact },
-};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_p,      spawn,          SPAWN("run-menu") },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          SPAWN("st") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -127,7 +123,7 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button2,        spawn,          SPAWN("st") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
