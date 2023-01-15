@@ -3,7 +3,7 @@
 #define SESSION_FILE "/tmp/dwm-session"
 #define STATUSBAR    "dwmblocks"
 
-#define BROWSER "firefox"
+#define BROWSER  "librewolf"
 #define TERMINAL "st"
 
 /* appearance */
@@ -36,8 +36,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
+	{ "float",    NULL,       NULL,       0,            1,           -1,        0  },
 	{ "discord",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1,        0  },
 	{ NULL,       NULL,       "notes",    0,            1,           -1,       'n' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
 };
@@ -117,7 +117,7 @@ static Key keys[] = {
 	{ MODKEY,               XK_0,               view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,     XK_0,               tag,            {.ui = ~0 } },
 	{ MODKEY,               XK_minus,           spawn,          SHCMD("vl down 5") },
-	{ MODKEY|ShiftMask,     XK_minus,           spawn,          SHCMD("vl toggle") },
+	{ MODKEY|ShiftMask,     XK_minus,           spawn,          SHCMD("vl sink_mute") },
 	{ MODKEY,               XK_equal,           spawn,          SHCMD("vl up 5") },
 	{ MODKEY|ShiftMask,     XK_equal,           spawn,          SHCMD("vl switch") },
 	{ MODKEY,               XK_BackSpace,       _____ },
@@ -130,7 +130,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
 	{ MODKEY,               XK_w,               _____ },
 	{ MODKEY|ShiftMask,     XK_w,               _____ },
-	{ MODKEY,               XK_e,               _____ },
+	{ MODKEY,               XK_e,               spawn,          SPAWN("edit-in-editor") },
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
@@ -138,11 +138,11 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_t,               _____ },
 	{ MODKEY,               XK_y,               _____ },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
-	{ MODKEY,               XK_u,               spawn,          SHCMD("readlater pop") },
+	{ MODKEY,               XK_u,               _____ },
 	{ MODKEY|ShiftMask,     XK_u,               _____ },
-	{ MODKEY,               XK_i,               spawn,          SHCMD("readlater add") },
-	{ MODKEY|ShiftMask,     XK_i,               spawn,          SHCMD("readlater rm") },
-	{ MODKEY,               XK_o,               spawn,          SHCMD("bookmark | xargs -r firefox --new-tab") },
+	{ MODKEY,               XK_i,               _____ },
+	{ MODKEY|ShiftMask,     XK_i,               _____ },
+	{ MODKEY,               XK_o,               spawn,          SHCMD("bookmark | xargs -r librewolf --new-tab") },
 	{ MODKEY|ShiftMask,     XK_o,               spawn,          SHCMD("bookmark | xargs -r xdotool type") },
 	{ MODKEY,               XK_p,               _____ },
 	{ MODKEY|ShiftMask,     XK_p,               _____ },
