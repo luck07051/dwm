@@ -96,12 +96,12 @@ ResourcePref resources[] = {
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
-#define NOTESCRP   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", \
+#define SCR_NOTE   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", \
 			 "nvim", "notes/index.md", "-c", "TZMinimalist" )
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
-	{ MODKEY,               XK_Escape,          spawn,          SHCMD("power-menu") },
+	{ MODKEY,               XK_Escape,          spawn,          SHCMD("dm-power") },
 	{ MODKEY|ShiftMask,     XK_Escape,          _____ },
 	{ MODKEY,               XK_grave,           _____ },
 	{ MODKEY|ShiftMask,     XK_grave,           _____ },
@@ -134,7 +134,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
-	{ MODKEY,               XK_t,               spawn,          SPAWN("translate") },
+	{ MODKEY,               XK_t,               _____ },
 	{ MODKEY|ShiftMask,     XK_t,               _____ },
 	{ MODKEY,               XK_y,               _____ },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
@@ -156,7 +156,7 @@ static Key keys[] = {
 
 	{ MODKEY,               XK_a,               _____ },
 	{ MODKEY|ShiftMask,     XK_a,               _____ },
-	{ MODKEY,               XK_s,               spawn,          SHCMD("share") },
+	{ MODKEY,               XK_s,               spawn,          SHCMD("dm-share") },
 	{ MODKEY|ShiftMask,     XK_s,               _____ },
 	{ MODKEY,               XK_d,               _____ },
 	{ MODKEY|ShiftMask,     XK_d,               _____ },
@@ -172,7 +172,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_k,               pushstack,      {.i = INC(-1) } },
 	{ MODKEY,               XK_l,               setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,     XK_l,               _____ },
-	{ MODKEY,               XK_semicolon,       spawn,          SPAWN("launcher") },
+	{ MODKEY,               XK_semicolon,       spawn,          SPAWN("dm-launcher") },
 	{ MODKEY|ShiftMask,     XK_semicolon,       _____ },
 	{ MODKEY,               XK_apostrophe,      _____ },
 	{ MODKEY|ShiftMask,     XK_apostrophe,      _____ },
@@ -180,17 +180,17 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_Return,          _____ },
 
 
-	{ MODKEY,               XK_z,               spawn,          SHCMD("showtime") },
+	{ MODKEY,               XK_z,               _____ },
 	{ MODKEY|ShiftMask,     XK_z,               _____ },
 	{ MODKEY,               XK_x,               _____ },
 	{ MODKEY|ShiftMask,     XK_x,               _____ },
-	{ MODKEY,               XK_c,               spawn,          SPAWN("dc-menu") },
+	{ MODKEY,               XK_c,               _____ },
 	{ MODKEY|ShiftMask,     XK_c,               _____ },
 	{ MODKEY,               XK_v,               focusstack,     {.i = 0 } },
 	{ MODKEY|ShiftMask,     XK_v,               pushstack,      {.i = 0 } },
 	{ MODKEY,               XK_b,               spawn,          SPAWN(BROWSER) },
 	{ MODKEY|ShiftMask,     XK_b,               spawn,          SHCMD("edit-bookmark") },
-	{ MODKEY,               XK_n,               togglescratch,  NOTESCRP },
+	{ MODKEY,               XK_n,               togglescratch,  SCR_NOTE },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
 	{ MODKEY,               XK_m,               incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,     XK_m,               incnmaster,     {.i = -1 } },
@@ -239,7 +239,7 @@ static Key keys[] = {
 
 
 	{ 0,            XF86XK_AudioRaiseVolume,    spawn,          SHCMD("vl up 5") },
-	{ 0,            XF86XK_AudioLowerVolume,    spawn,          SHCMD("vl up 5") },
+	{ 0,            XF86XK_AudioLowerVolume,    spawn,          SHCMD("vl down 5") },
 	{ 0,            XF86XK_AudioMute,           spawn,          SHCMD("vl sink_mute") },
 	{ 0,            XF86XK_AudioMicMute,        spawn,          SHCMD("vl source_mute") },
 };
