@@ -3,9 +3,6 @@
 #define SESSION_FILE "/tmp/dwm-session"
 #define STATUSBAR    "dwmblocks"
 
-#define BROWSER  "librewolf"
-#define TERMINAL "st"
-
 /* appearance */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
@@ -38,7 +35,10 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
 	{ "float",    NULL,       NULL,       0,            1,           -1,        0  },
 	{ "discord",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
+	{ NULL,       NULL,       "fmenu",    0,            1,           -1,        0  },
+	{ NULL,       NULL,       "pkg-mgr",  0,            1,           -1,        0  },
 	{ NULL,       NULL,       "notes",    0,            1,           -1,       'n' },
+	{ NULL,       NULL,       "pkg",      0,            1,           -1,       'p' },
 	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
 };
 
@@ -88,8 +88,8 @@ ResourcePref resources[] = {
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
-#define SCR_NOTE   SPAWN("n", TERMINAL, "-g", "100x35", "-t", "notes", "-e", \
-			 "nvim", "notes/index.md", "-c", "TZMinimalist" )
+#define SCR_NOTE   SPAWN("n", "/bin/sh", "-c", "$TERMINAL -t notes -g 100x35 -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
+#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t pkg-mgr -g 100x35 -e $EDITOR $XDG_CONFIG_HOME/pkg-mgr/packages")
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -136,7 +136,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_i,               _____ },
 	{ MODKEY,               XK_o,               spawn,          SHCMD("bookmark | xargs -r librewolf --new-tab") },
 	{ MODKEY|ShiftMask,     XK_o,               spawn,          SHCMD("bookmark | xargs -r xdotool type") },
-	{ MODKEY,               XK_p,               _____ },
+	{ MODKEY,               XK_p,               togglescratch,  SCR_PKG },
 	{ MODKEY|ShiftMask,     XK_p,               _____ },
 	{ MODKEY,               XK_bracketleft,     _____ },
 	{ MODKEY|ShiftMask,     XK_bracketleft,     _____ },
@@ -168,7 +168,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_semicolon,       _____ },
 	{ MODKEY,               XK_apostrophe,      _____ },
 	{ MODKEY|ShiftMask,     XK_apostrophe,      _____ },
-	{ MODKEY,               XK_Return,          spawn,          SPAWN(TERMINAL) },
+	{ MODKEY,               XK_Return,          spawn,          SHCMD("$TERMINAL") },
 	{ MODKEY|ShiftMask,     XK_Return,          _____ },
 
 
@@ -180,7 +180,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_c,               _____ },
 	{ MODKEY,               XK_v,               focusstack,     {.i = 0 } },
 	{ MODKEY|ShiftMask,     XK_v,               pushstack,      {.i = 0 } },
-	{ MODKEY,               XK_b,               spawn,          SPAWN(BROWSER) },
+	{ MODKEY,               XK_b,               spawn,          SHCMD("$BROWSER") },
 	{ MODKEY|ShiftMask,     XK_b,               spawn,          SHCMD("edit-bookmark") },
 	{ MODKEY,               XK_n,               togglescratch,  SCR_NOTE },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
