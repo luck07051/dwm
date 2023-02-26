@@ -32,14 +32,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor    scratch key */
-	{ "float",    NULL,       NULL,       0,            1,           -1,        0  },
-	{ "discord",  NULL,       NULL,       1 << 8,       0,           -1,        0  },
-	{ NULL,       NULL,       "fmenu",    0,            1,           -1,        0  },
-	{ NULL,       NULL,       "pkg-mgr",  0,            1,           -1,        0  },
-	{ NULL,       NULL,       "notes",    0,            1,           -1,       'n' },
-	{ NULL,       NULL,       "pkg",      0,            1,           -1,       'p' },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           -1,       's' },
+	/* class       instance    title           tags mask   isfloating  monitor     scratch key */
+	{ "float",     NULL,       NULL,           0,          1,          -1,         0  },
+	{ "discord",   NULL,       NULL,           1 << 8,     0,          -1,         0  },
+	{ NULL,        NULL,       "fmenu",        0,          1,          -1,         0  },
+	{ NULL,        NULL,       "installer",    0,          1,          -1,         0  },
+	{ NULL,        NULL,       "notes",        0,          1,          -1,        'n' },
+	{ NULL,        NULL,       "packages",     0,          1,          -1,        'p' },
+	{ NULL,        NULL,       "scratchpad",   0,          1,          -1,        's' },
 };
 
 /* layout(s) */
@@ -89,7 +89,7 @@ ResourcePref resources[] = {
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
 #define SCR_NOTE   SPAWN("n", "/bin/sh", "-c", "$TERMINAL -t notes -g 100x35 -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
-#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t pkg-mgr -g 100x35 -e $EDITOR $XDG_CONFIG_HOME/pkg-mgr/packages")
+#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t packages -g 100x35 -e $EDITOR $XDG_CONFIG_HOME/package-manager/packages")
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
