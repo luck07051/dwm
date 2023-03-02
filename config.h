@@ -36,6 +36,7 @@ static const Rule rules[] = {
 	{ "float",     NULL,       NULL,           0,          1,          -1,         0  },
 	{ "discord",   NULL,       NULL,           1 << 8,     0,          -1,         0  },
 	{ NULL,        NULL,       "fmenu",        0,          1,          -1,         0  },
+	{ NULL,        NULL,       "wifi",         0,          1,          -1,         0  },
 	{ NULL,        NULL,       "installer",    0,          1,          -1,         0  },
 	{ NULL,        NULL,       "notes",        0,          1,          -1,        'n' },
 	{ NULL,        NULL,       "packages",     0,          1,          -1,        'p' },
@@ -83,13 +84,12 @@ ResourcePref resources[] = {
 /* XF86 key support */
 #include <X11/XF86keysym.h>
 
-/* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define _____      spawn, { .v = (const char*[]){ NULL } }
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
-#define _____      spawn, { .v = (const char*[]){ NULL} }
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-#define SCR_NOTE   SPAWN("n", "/bin/sh", "-c", "$TERMINAL -t notes -g 100x35 -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
-#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t packages -g 100x35 -e $HOME/pkg/$(cat /etc/hostname)")
+#define SCRATCH_NOTE  SPAWN("n", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t notes -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
+#define SCRATCH_PKG   SPAWN("p", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t packages -e $EDITOR $HOME/pkg/$(cat /etc/hostname)")
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -134,9 +134,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_u,               _____ },
 	{ MODKEY,               XK_i,               _____ },
 	{ MODKEY|ShiftMask,     XK_i,               _____ },
-	{ MODKEY,               XK_o,               spawn,          SHCMD("bookmark | xargs -r librewolf --new-tab") },
-	{ MODKEY|ShiftMask,     XK_o,               spawn,          SHCMD("bookmark | xargs -r xdotool type") },
-	{ MODKEY,               XK_p,               togglescratch,  SCR_PKG },
+	{ MODKEY,               XK_o,               _____ },
+	{ MODKEY|ShiftMask,     XK_o,               _____ },
+	{ MODKEY,               XK_p,               togglescratch,  SCRATCH_PKG },
 	{ MODKEY|ShiftMask,     XK_p,               _____ },
 	{ MODKEY,               XK_bracketleft,     _____ },
 	{ MODKEY|ShiftMask,     XK_bracketleft,     _____ },
@@ -182,7 +182,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_v,               pushstack,      {.i = 0 } },
 	{ MODKEY,               XK_b,               spawn,          SHCMD("$BROWSER") },
 	{ MODKEY|ShiftMask,     XK_b,               spawn,          SHCMD("edit-bookmark") },
-	{ MODKEY,               XK_n,               togglescratch,  SCR_NOTE },
+	{ MODKEY,               XK_n,               togglescratch,  SCRATCH_NOTE },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
 	{ MODKEY,               XK_m,               incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,     XK_m,               incnmaster,     {.i = -1 } },
