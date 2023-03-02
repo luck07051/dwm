@@ -89,7 +89,7 @@ ResourcePref resources[] = {
 #define _____      spawn, { .v = (const char*[]){ NULL} }
 
 #define SCR_NOTE   SPAWN("n", "/bin/sh", "-c", "$TERMINAL -t notes -g 100x35 -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
-#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t packages -g 100x35 -e $EDITOR $XDG_CONFIG_HOME/package-manager/packages")
+#define SCR_PKG    SPAWN("p", "/bin/sh", "-c", "$TERMINAL -t packages -g 100x35 -e $HOME/pkg/$(cat /etc/hostname)")
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -234,6 +234,8 @@ static Key keys[] = {
 	{ 0,            XF86XK_AudioLowerVolume,    spawn,          SHCMD("vl down 5") },
 	{ 0,            XF86XK_AudioMute,           spawn,          SHCMD("vl sink_mute") },
 	{ 0,            XF86XK_AudioMicMute,        spawn,          SHCMD("vl source_mute") },
+	{ 0,            XF86XK_MonBrightnessUp,     spawn,          SHCMD("bright up") },
+	{ 0,            XF86XK_MonBrightnessDown,   spawn,          SHCMD("bright down") },
 };
 
 /* button definitions */
