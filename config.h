@@ -107,7 +107,7 @@ static Key keys[] = {
 	{ MODKEY,               XK_0,               view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,     XK_0,               tag,            {.ui = ~0 } },
 	{ MODKEY,               XK_minus,           spawn,          SHCMD("vl down 5") },
-	{ MODKEY|ShiftMask,     XK_minus,           spawn,          SHCMD("vl sink_mute") },
+	{ MODKEY|ShiftMask,     XK_minus,           spawn,          SHCMD("vl sink-mute") },
 	{ MODKEY,               XK_equal,           spawn,          SHCMD("vl up 5") },
 	{ MODKEY|ShiftMask,     XK_equal,           spawn,          SHCMD("vl switch") },
 	{ MODKEY,               XK_BackSpace,       _____ },
@@ -192,7 +192,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_slash,           _____ },
 
 
-	{ MODKEY,               XK_space,           zoom,       {0} },
+	{ MODKEY,               XK_space,           zoom,           {0} },
 	{ MODKEY|ShiftMask,     XK_space,           _____ },
 	{ MODKEY,               XK_Up,              _____ },
 	{ MODKEY|ShiftMask,     XK_Up,              _____ },
@@ -230,8 +230,8 @@ static Key keys[] = {
 
 	{ 0,            XF86XK_AudioRaiseVolume,    spawn,          SHCMD("vl up 5") },
 	{ 0,            XF86XK_AudioLowerVolume,    spawn,          SHCMD("vl down 5") },
-	{ 0,            XF86XK_AudioMute,           spawn,          SHCMD("vl sink_mute") },
-	{ 0,            XF86XK_AudioMicMute,        spawn,          SHCMD("vl source_mute") },
+	{ 0,            XF86XK_AudioMute,           spawn,          SHCMD("vl sink-mute") },
+	{ 0,            XF86XK_AudioMicMute,        spawn,          SHCMD("vl source-mute") },
 	{ 0,            XF86XK_MonBrightnessUp,     spawn,          SHCMD("bright up") },
 	{ 0,            XF86XK_MonBrightnessDown,   spawn,          SHCMD("bright down") },
 };
