@@ -86,8 +86,8 @@ ResourcePref resources[] = {
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-#define SCRATCH_NOTE  SPAWN("n", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t notes -e sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
-#define SCRATCH_PKG   SPAWN("p", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t packages -e $EDITOR $HOME/pkg/$(cat /etc/hostname)")
+#define SCRATCH_NOTE  SPAWN("n", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
+#define SCRATCH_PKG   SPAWN("p", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)")
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -118,14 +118,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_Tab,             _____ },
 	{ MODKEY,               XK_q,               killclient,     {0} },
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
-	{ MODKEY,               XK_w,               _____ },
-	{ MODKEY|ShiftMask,     XK_w,               _____ },
+	{ MODKEY,               XK_w,               spawn,          SPAWN("${TERMINAL:-st} -t wifi -c float su -c popup-wifi") },
+	{ MODKEY|ShiftMask,     XK_w,               spawn,          SPAWN("vpn toggle") },
 	{ MODKEY,               XK_e,               spawn,          SPAWN("edit-in-editor") },
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
-	{ MODKEY,               XK_t,               spawn,          SHCMD("${TERMINAL:-st} -t trans -c float -e popup-trans") },
-	{ MODKEY|ShiftMask,     XK_t,               _____ },
+	{ MODKEY,               XK_t,               spawn,          SHCMD("${TERMINAL:-st} -t trans -c float popup-trans") },
+	{ MODKEY|ShiftMask,     XK_t,               spawn,          SHCMD("${TERMINAL:-st} -t trans -c float popup-trans sele") },
 	{ MODKEY,               XK_y,               _____ },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
 	{ MODKEY,               XK_u,               _____ },
@@ -135,7 +135,7 @@ static Key keys[] = {
 	{ MODKEY,               XK_o,               _____ },
 	{ MODKEY|ShiftMask,     XK_o,               _____ },
 	{ MODKEY,               XK_p,               togglescratch,  SCRATCH_PKG },
-	{ MODKEY|ShiftMask,     XK_p,               _____ },
+	{ MODKEY|ShiftMask,     XK_p,               spawn,          SHCMD("${TERMINAL:st} -t upgrad sb-popupgrad") },
 	{ MODKEY,               XK_bracketleft,     _____ },
 	{ MODKEY|ShiftMask,     XK_bracketleft,     _____ },
 	{ MODKEY,               XK_bracketright,    _____ },
