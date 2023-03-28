@@ -85,9 +85,10 @@ ResourcePref resources[] = {
 #define _____      spawn, { .v = (const char*[]){ NULL } }
 #define SPAWN(...) { .v = (const char*[]){ __VA_ARGS__, NULL } }
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define TERM(cmd)  { .v = (const char*[]){ "/bin/sh", "-c", "${TERMINAL:-st} " cmd, NULL } }
 
-#define SCRATCH_NOTE  SPAWN("n", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\"")
-#define SCRATCH_PKG   SPAWN("p", "/bin/sh", "-c", "$TERMINAL -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)")
+#define SCRATCH_NOTE "/bin/sh", "-c", "$TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\""
+#define SCRATCH_PKG  "/bin/sh", "-c", "$TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -118,14 +119,14 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_Tab,             _____ },
 	{ MODKEY,               XK_q,               killclient,     {0} },
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
-	{ MODKEY,               XK_w,               spawn,          SPAWN("${TERMINAL:-st} -t wifi -c float su -c popup-wifi") },
-	{ MODKEY|ShiftMask,     XK_w,               spawn,          SPAWN("vpn toggle") },
+	{ MODKEY,               XK_w,               spawn,          TERM("-t wifi -c float su -c popup-wifi") },
+	{ MODKEY|ShiftMask,     XK_w,               spawn,          SHCMD("vpn toggle") },
 	{ MODKEY,               XK_e,               spawn,          SPAWN("edit-in-editor") },
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
-	{ MODKEY,               XK_t,               spawn,          SHCMD("${TERMINAL:-st} -t trans -c float popup-trans") },
-	{ MODKEY|ShiftMask,     XK_t,               spawn,          SHCMD("${TERMINAL:-st} -t trans -c float popup-trans sele") },
+	{ MODKEY,               XK_t,               spawn,          TERM("-t trans -c float popup-trans sele") },
+	{ MODKEY|ShiftMask,     XK_t,               spawn,          TERM("-t trans -c float popup-trans editor") },
 	{ MODKEY,               XK_y,               _____ },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
 	{ MODKEY,               XK_u,               _____ },
@@ -134,8 +135,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_i,               _____ },
 	{ MODKEY,               XK_o,               _____ },
 	{ MODKEY|ShiftMask,     XK_o,               _____ },
-	{ MODKEY,               XK_p,               togglescratch,  SCRATCH_PKG },
-	{ MODKEY|ShiftMask,     XK_p,               spawn,          SHCMD("${TERMINAL:st} -t upgrad sb-popupgrad") },
+	{ MODKEY,               XK_p,               togglescratch,  SPAWN("p", SCRATCH_PKG) },
+	{ MODKEY|ShiftMask,     XK_p,               spawn,          TERM("-t upgrad sb-popupgrade") },
 	{ MODKEY,               XK_bracketleft,     _____ },
 	{ MODKEY|ShiftMask,     XK_bracketleft,     _____ },
 	{ MODKEY,               XK_bracketright,    _____ },
@@ -180,7 +181,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_v,               pushstack,      {.i = 0 } },
 	{ MODKEY,               XK_b,               spawn,          SHCMD("$BROWSER") },
 	{ MODKEY|ShiftMask,     XK_b,               spawn,          SHCMD("edit-bookmark") },
-	{ MODKEY,               XK_n,               togglescratch,  SCRATCH_NOTE },
+	{ MODKEY,               XK_n,               togglescratch,  SPAWN("n", SCRATCH_NOTE) },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
 	{ MODKEY,               XK_m,               incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,     XK_m,               incnmaster,     {.i = -1 } },
