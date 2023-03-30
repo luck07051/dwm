@@ -87,8 +87,8 @@ ResourcePref resources[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERM(cmd)  { .v = (const char*[]){ "/bin/sh", "-c", "${TERMINAL:-st} " cmd, NULL } }
 
-#define SCRATCH_NOTE "/bin/sh", "-c", "$TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\""
-#define SCRATCH_PKG  "/bin/sh", "-c", "$TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
+#define SCRATCH_NOTE "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\""
+#define SCRATCH_PKG  "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -125,8 +125,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
-	{ MODKEY,               XK_t,               spawn,          TERM("-t trans -c float popup-trans sele") },
-	{ MODKEY|ShiftMask,     XK_t,               spawn,          TERM("-t trans -c float popup-trans editor") },
+	{ MODKEY,               XK_t,               spawn,          TERM("-t trans -c float tl sele") },
+	{ MODKEY|ShiftMask,     XK_t,               spawn,          TERM("-t trans -c float tl editor") },
 	{ MODKEY,               XK_y,               _____ },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
 	{ MODKEY,               XK_u,               _____ },
@@ -180,7 +180,7 @@ static Key keys[] = {
 	{ MODKEY,               XK_v,               focusstack,     {.i = 0 } },
 	{ MODKEY|ShiftMask,     XK_v,               pushstack,      {.i = 0 } },
 	{ MODKEY,               XK_b,               spawn,          SHCMD("$BROWSER") },
-	{ MODKEY|ShiftMask,     XK_b,               spawn,          SHCMD("edit-bookmark") },
+	{ MODKEY|ShiftMask,     XK_b,               spawn,          TERM("-c float -e ${EDITOR-:vim} $HOME/bm/bookmark") },
 	{ MODKEY,               XK_n,               togglescratch,  SPAWN("n", SCRATCH_NOTE) },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
 	{ MODKEY,               XK_m,               incnmaster,     {.i = +1 } },
