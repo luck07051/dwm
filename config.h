@@ -90,7 +90,7 @@ ResourcePref resources[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERM(cmd)  { .v = (const char*[]){ "/bin/sh", "-c", "${TERMINAL:-st} " cmd, NULL } }
 
-#define SCRATCH_NOTE "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md -c 'TZMinimalist'\""
+#define SCRATCH_NOTE "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md\""
 #define SCRATCH_PKG  "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
 
 static Key keys[] = {
@@ -134,8 +134,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
 	{ MODKEY,               XK_u,               _____ },
 	{ MODKEY|ShiftMask,     XK_u,               _____ },
-	{ MODKEY,               XK_i,               spawn,          SHCMD("warpd --normal") },
-	{ MODKEY|ShiftMask,     XK_i,               spawn,          SHCMD("warpd --hint") },
+	// { MODKEY,               XK_i,               spawn,          SHCMD("warpd --normal") },
+	// { MODKEY|ShiftMask,     XK_i,               spawn,          SHCMD("warpd --hint") },
+	{ MODKEY,               XK_i,               spawn,          SHCMD("ibus-script next") },
+	{ MODKEY|ShiftMask,     XK_i,               _____ },
 	{ MODKEY,               XK_o,               spawn,          SPAWN("dm-launcher") },
 	{ MODKEY|ShiftMask,     XK_o,               spawn,          SPAWN("dm-bookmark") },
 	{ MODKEY,               XK_p,               togglescratch,  SPAWN("p", SCRATCH_PKG) },
@@ -230,7 +232,6 @@ static Key keys[] = {
 
 	{ MODKEY,               XK_F5,              xrdb,           {.v = NULL } },
 	{ MODKEY,               XK_F6,              spawn,          SHCMD("kill -10 $(pidof dwmblocks)") },
-
 
 	{ 0,            XF86XK_AudioRaiseVolume,    spawn,          SHCMD("vl up 5") },
 	{ 0,            XF86XK_AudioLowerVolume,    spawn,          SHCMD("vl down 5") },
