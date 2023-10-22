@@ -96,8 +96,6 @@ ResourcePref resources[] = {
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
-	{ MODKEY,               XK_Escape,          spawn,          SHCMD("dm-power") },
-	{ MODKEY|ShiftMask,     XK_Escape,          _____ },
 	{ MODKEY,               XK_grave,           _____ },
 	{ MODKEY|ShiftMask,     XK_grave,           _____ },
 	TAGKEYS(                XK_1,                               0)
@@ -115,17 +113,23 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_minus,           spawn,          SHCMD("vl sink-mute") },
 	{ MODKEY,               XK_equal,           spawn,          SHCMD("vl switch") },
 	{ MODKEY|ShiftMask,     XK_equal,           spawn,          SHCMD("vl up 5") },
-	{ MODKEY,               XK_BackSpace,       _____ },
+
+	{ MODKEY,               XK_Escape,          spawn,          SHCMD("dm-power") },
+	{ MODKEY|ShiftMask,     XK_Escape,          _____ },
+	{ MODKEY,               XK_BackSpace,       view,           {0} },
 	{ MODKEY|ShiftMask,     XK_BackSpace,       _____ },
-
-
 	{ MODKEY,               XK_Tab,             shiftviewclients, { .i = +1 } },
 	{ MODKEY|ShiftMask,     XK_Tab,             shiftviewclients, { .i = -1 } },
+	{ MODKEY,               XK_Return,          spawn,          SHCMD("$TERMINAL") },
+	{ MODKEY|ShiftMask,     XK_Return,          _____ },
+	{ MODKEY,               XK_space,           zoom,           {0} },
+	{ MODKEY|ShiftMask,     XK_space,           _____ },
+
 	{ MODKEY,               XK_q,               killclient,     {0} },
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
-	{ MODKEY,               XK_w,               spawn,          TERM("-t wifi -c float su -c popup-wifi") },
-	{ MODKEY|ShiftMask,     XK_w,               spawn,          SHCMD("vpn toggle") },
-	{ MODKEY,               XK_e,               spawn,          SPAWN("edit-in-editor") },
+	{ MODKEY,               XK_w,               _____ },
+	{ MODKEY|ShiftMask,     XK_w,               _____ },
+	{ MODKEY,               XK_e,               _____ },
 	{ MODKEY|ShiftMask,     XK_e,               _____ },
 	{ MODKEY,               XK_r,               _____ },
 	{ MODKEY|ShiftMask,     XK_r,               _____ },
@@ -135,12 +139,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
 	{ MODKEY,               XK_u,               _____ },
 	{ MODKEY|ShiftMask,     XK_u,               _____ },
-	// { MODKEY,               XK_i,               spawn,          SHCMD("warpd --normal") },
-	// { MODKEY|ShiftMask,     XK_i,               spawn,          SHCMD("warpd --hint") },
 	{ MODKEY,               XK_i,               spawn,          SHCMD("ibus-script next") },
 	{ MODKEY|ShiftMask,     XK_i,               _____ },
 	{ MODKEY,               XK_o,               spawn,          SPAWN("dm-launcher") },
-	{ MODKEY|ShiftMask,     XK_o,               spawn,          SPAWN("dm-bookmark") },
+	{ MODKEY|ShiftMask,     XK_o,               _____ },
 	{ MODKEY,               XK_p,               togglescratch,  SPAWN("p", SCRATCH_PKG) },
 	{ MODKEY|ShiftMask,     XK_p,               spawn,          TERM("-t upgrad sb-popupgrade") },
 	{ MODKEY,               XK_bracketleft,     _____ },
@@ -153,8 +155,8 @@ static Key keys[] = {
 
 	{ MODKEY,               XK_a,               _____ },
 	{ MODKEY|ShiftMask,     XK_a,               _____ },
-	{ MODKEY,               XK_s,               spawn,          SHCMD("dm-search") },
-	{ MODKEY|ShiftMask,     XK_s,               spawn,          SHCMD("scihub") },
+	{ MODKEY,               XK_s,               _____ },
+	{ MODKEY|ShiftMask,     XK_s,               _____ },
 	{ MODKEY,               XK_d,               _____ },
 	{ MODKEY|ShiftMask,     XK_d,               _____ },
 	{ MODKEY,               XK_f,               togglefullscr,  {0} },
@@ -169,12 +171,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_k,               pushstack,      {.i = INC(-1) } },
 	{ MODKEY,               XK_l,               setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,     XK_l,               _____ },
-	{ MODKEY,               XK_semicolon,       _____ },
+	{ MODKEY,               XK_semicolon,       spawn,          SPAWN("dm-launcher") },
 	{ MODKEY|ShiftMask,     XK_semicolon,       _____ },
 	{ MODKEY,               XK_apostrophe,      _____ },
 	{ MODKEY|ShiftMask,     XK_apostrophe,      _____ },
-	{ MODKEY,               XK_Return,          spawn,          SHCMD("$TERMINAL") },
-	{ MODKEY|ShiftMask,     XK_Return,          _____ },
 
 
 	{ MODKEY,               XK_z,               _____ },
@@ -198,9 +198,6 @@ static Key keys[] = {
 	{ MODKEY,               XK_slash,           _____ },
 	{ MODKEY|ShiftMask,     XK_slash,           _____ },
 
-
-	{ MODKEY,               XK_space,           zoom,           {0} },
-	{ MODKEY|ShiftMask,     XK_space,           _____ },
 	{ MODKEY,               XK_Left,            setmfact,       {.f = -0.05} },
 	{ MODKEY|ShiftMask,     XK_Left,            _____ },
 	{ MODKEY,               XK_Up,              focusstack,     {.i = INC(-1) } },
@@ -229,7 +226,6 @@ static Key keys[] = {
 	{ ShiftMask|ControlMask,XK_Print,           spawn,          SPAWN("colorpicker") },
 	{ 0,                    XK_Scroll_Lock,     _____ },
 	{ 0,                    XK_Pause,           _____ },
-
 
 	{ MODKEY,               XK_F5,              xrdb,           {.v = NULL } },
 	{ MODKEY,               XK_F6,              spawn,          SHCMD("kill -10 $(pidof dwmblocks)") },
