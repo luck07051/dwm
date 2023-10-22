@@ -34,12 +34,13 @@ static const Rule rules[] = {
 	 */
 	/* class       instance    title           tags mask   isfloating  monitor     scratch key */
 	{ NULL,        NULL,       "osu!",         1 << 7,     0,          -1,         0  },
-	{ "float",     NULL,       NULL,           0,          1,          -1,         0  },
 	{ "discord",   NULL,       NULL,           1 << 8,     0,          -1,         0  },
+
+	{ "float",     NULL,       NULL,           0,          1,          -1,         0  },
 	{ NULL,        NULL,       "fmenu",        0,          1,          -1,         0  },
 	{ NULL,        "qrcode",   NULL,           0,          1,          -1,         0  },
 
-	{ NULL,        NULL,       "notes",        0,          1,          -1,        'n' },
+	{ "Emacs",     NULL,       NULL,           0,          1,          -1,        'n' },
 	{ NULL,        NULL,       "packages",     0,          1,          -1,        'p' },
 	{ NULL,        NULL,       "scratchpad",   0,          1,          -1,        's' },
 };
@@ -90,7 +91,7 @@ ResourcePref resources[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERM(cmd)  { .v = (const char*[]){ "/bin/sh", "-c", "${TERMINAL:-st} " cmd, NULL } }
 
-#define SCRATCH_NOTE "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t notes sh -c \"cd notes && $EDITOR index.md\""
+#define SCRATCH_NOTE "/bin/sh", "-c", "emacsclient -c $HOME/org/inbox.org"
 #define SCRATCH_PKG  "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
 
 static Key keys[] = {
