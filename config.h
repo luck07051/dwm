@@ -119,8 +119,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_BackSpace,       _____ },
 
 
-	{ MODKEY,               XK_Tab,             view,           {0} },
-	{ MODKEY|ShiftMask,     XK_Tab,             _____ },
+	{ MODKEY,               XK_Tab,             shiftviewclients, { .i = +1 } },
+	{ MODKEY|ShiftMask,     XK_Tab,             shiftviewclients, { .i = -1 } },
 	{ MODKEY,               XK_q,               killclient,     {0} },
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
 	{ MODKEY,               XK_w,               spawn,          TERM("-t wifi -c float su -c popup-wifi") },
