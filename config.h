@@ -33,14 +33,14 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class       instance    title           tags mask   isfloating  monitor     scratch key */
-	{ NULL,        NULL,       "osu!",         1 << 7,     0,          -1,         0  },
-	{ "discord",   NULL,       NULL,           1 << 8,     0,          -1,         0  },
+	{ NULL,        NULL,       "osu!",         1 << 5,     0,          -1,         0  },
+	{ "discord",   NULL,       NULL,           1 << 6,     0,          -1,         0  },
 
 	{ "float",     NULL,       NULL,           0,          1,          -1,         0  },
 	{ NULL,        NULL,       "fmenu",        0,          1,          -1,         0  },
 	{ NULL,        "qrcode",   NULL,           0,          1,          -1,         0  },
 
-	{ "Emacs",     NULL,       NULL,           0,          1,          -1,        'n' },
+	{ "Emacs",     NULL,       NULL,           0,          0,          -1,        'n' },
 	{ NULL,        NULL,       "packages",     0,          1,          -1,        'p' },
 	{ NULL,        NULL,       "scratchpad",   0,          1,          -1,        's' },
 };
@@ -91,8 +91,8 @@ ResourcePref resources[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define TERM(cmd)  { .v = (const char*[]){ "/bin/sh", "-c", "${TERMINAL:-st} " cmd, NULL } }
 
-#define SCRATCH_NOTE "/bin/sh", "-c", "emacsclient -c $HOME/org/inbox.org"
-#define SCRATCH_PKG  "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t packages $EDITOR $HOME/pkg/$(cat /etc/hostname)"
+#define SCRATCH_NOTE "/bin/sh", "-c", "emacsclient -c"
+#define SCRATCH_PKG  "/bin/sh", "-c", "${TERMINAL:-st} -g 100x35 -t packages $EDITOR ${XDG_BOOKMARK_DIR:-$HOME/bm}/pkg-$(cat /etc/hostname)"
 
 static Key keys[] = {
 	/* modifier             key                 function        argument */
@@ -114,7 +114,7 @@ static Key keys[] = {
 	{ MODKEY,               XK_equal,           spawn,          SHCMD("vl switch") },
 	{ MODKEY|ShiftMask,     XK_equal,           spawn,          SHCMD("vl up 5") },
 
-	{ MODKEY,               XK_Escape,          spawn,          SHCMD("dm-power") },
+	{ MODKEY,               XK_Escape,          spawn,          SHCMD("power-menu") },
 	{ MODKEY|ShiftMask,     XK_Escape,          _____ },
 	{ MODKEY,               XK_BackSpace,       view,           {0} },
 	{ MODKEY|ShiftMask,     XK_BackSpace,       _____ },
@@ -127,21 +127,18 @@ static Key keys[] = {
 
 	{ MODKEY,               XK_q,               killclient,     {0} },
 	{ MODKEY|ShiftMask,     XK_q,               quit,           {1} },
-	{ MODKEY,               XK_w,               _____ },
-	{ MODKEY|ShiftMask,     XK_w,               _____ },
-	{ MODKEY,               XK_e,               _____ },
-	{ MODKEY|ShiftMask,     XK_e,               _____ },
-	{ MODKEY,               XK_r,               _____ },
-	{ MODKEY|ShiftMask,     XK_r,               _____ },
+	TAGKEYS(                XK_w,                               6)
+	TAGKEYS(                XK_e,                               7)
+	TAGKEYS(                XK_r,                               8)
 	{ MODKEY,               XK_t,               spawn,          TERM("-t trans -c float tl sele") },
 	{ MODKEY|ShiftMask,     XK_t,               spawn,          TERM("-t trans -c float tl editor") },
-	{ MODKEY,               XK_y,               _____ },
+	{ MODKEY,               XK_y,               spawn,          SHCMD("open-in-mpv") },
 	{ MODKEY|ShiftMask,     XK_y,               _____ },
-	{ MODKEY,               XK_u,               _____ },
+	{ MODKEY,               XK_u,               spawn,          SHCMD("ibus-script next") },
 	{ MODKEY|ShiftMask,     XK_u,               _____ },
-	{ MODKEY,               XK_i,               spawn,          SHCMD("ibus-script next") },
+	{ MODKEY,               XK_i,               spawn,          SPAWN("quicktype") },
 	{ MODKEY|ShiftMask,     XK_i,               _____ },
-	{ MODKEY,               XK_o,               spawn,          SPAWN("dm-launcher") },
+	{ MODKEY,               XK_o,               spawn,          SPAWN("app-launcher") },
 	{ MODKEY|ShiftMask,     XK_o,               _____ },
 	{ MODKEY,               XK_p,               togglescratch,  SPAWN("p", SCRATCH_PKG) },
 	{ MODKEY|ShiftMask,     XK_p,               spawn,          TERM("-t upgrad sb-popupgrade") },
@@ -153,40 +150,36 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_backslash,       _____ },
 
 
-	{ MODKEY,               XK_a,               _____ },
-	{ MODKEY|ShiftMask,     XK_a,               _____ },
-	{ MODKEY,               XK_s,               _____ },
-	{ MODKEY|ShiftMask,     XK_s,               _____ },
-	{ MODKEY,               XK_d,               _____ },
-	{ MODKEY|ShiftMask,     XK_d,               _____ },
-	{ MODKEY,               XK_f,               togglefullscr,  {0} },
-	{ MODKEY|ShiftMask,     XK_f,               togglefloating, {0} },
-	{ MODKEY,               XK_g,               _____ },
-	{ MODKEY|ShiftMask,     XK_g,               _____ },
+	{ MODKEY,               XK_a,               view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,     XK_a,               tag,            {.ui = ~0 } },
+	TAGKEYS(                XK_s,                               3)
+	TAGKEYS(                XK_d,                               4)
+	TAGKEYS(                XK_f,                               5)
+	// { MODKEY,               XK_f,               togglefullscr,  {0} },
+	// { MODKEY|ShiftMask,     XK_f,               togglefloating, {0} },
+	{ MODKEY,               XK_g,               togglefullscr,  {0} },
+	{ MODKEY|ShiftMask,     XK_g,               togglefloating, {0} },
 	{ MODKEY,               XK_h,               setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,     XK_h,               _____ },
+	{ MODKEY|ShiftMask,     XK_h,               incnmaster,     {.i = +1 } },
 	{ MODKEY,               XK_j,               focusstack,     {.i = INC(+1) } },
 	{ MODKEY|ShiftMask,     XK_j,               pushstack,      {.i = INC(+1) } },
 	{ MODKEY,               XK_k,               focusstack,     {.i = INC(-1) } },
 	{ MODKEY|ShiftMask,     XK_k,               pushstack,      {.i = INC(-1) } },
 	{ MODKEY,               XK_l,               setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,     XK_l,               _____ },
-	{ MODKEY,               XK_semicolon,       spawn,          SPAWN("dm-launcher") },
+	{ MODKEY|ShiftMask,     XK_l,               incnmaster,     {.i = -1 } },
+	{ MODKEY,               XK_semicolon,       spawn,          SPAWN("app-launcher") },
 	{ MODKEY|ShiftMask,     XK_semicolon,       _____ },
 	{ MODKEY,               XK_apostrophe,      _____ },
 	{ MODKEY|ShiftMask,     XK_apostrophe,      _____ },
 
 
-	{ MODKEY,               XK_z,               _____ },
+	{ MODKEY,               XK_z,               togglebar,      {0} },
 	{ MODKEY|ShiftMask,     XK_z,               _____ },
-	{ MODKEY,               XK_x,               _____ },
-	{ MODKEY|ShiftMask,     XK_x,               _____ },
-	{ MODKEY,               XK_c,               _____ },
-	{ MODKEY|ShiftMask,     XK_c,               _____ },
-	{ MODKEY,               XK_v,               incnmaster,     {.i = +1 } },
-	{ MODKEY|ShiftMask,     XK_v,               incnmaster,     {.i = -1 } },
+	TAGKEYS(                XK_x,                               0)
+	TAGKEYS(                XK_c,                               1)
+	TAGKEYS(                XK_v,                               2)
 	{ MODKEY,               XK_b,               spawn,          SHCMD("$BROWSER") },
-	{ MODKEY|ShiftMask,     XK_b,               spawn,          TERM("-c float -e ${EDITOR-:vim} $HOME/bm/bookmark") },
+	{ MODKEY|ShiftMask,     XK_b,               spawn,          TERM("-c float -e ${EDITOR-:vim} ${XDG_BOOKMARK_DIR:-$HOME/bm}/bookmark") },
 	{ MODKEY,               XK_n,               togglescratch,  SPAWN("n", SCRATCH_NOTE) },
 	{ MODKEY|ShiftMask,     XK_n,               _____ },
 	{ MODKEY,               XK_m,               focusstack,     {.i = 0 } },
